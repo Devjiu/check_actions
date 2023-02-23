@@ -15,12 +15,14 @@ jobs:
     steps:
     - name: Checkout workflows repo # required so we can reference the actions locally
       uses: actions/checkout@v3
-    - uses: ./actions/build
+    - name: Build (${{ matrix.environment-type }}.${{ matrix.hardware-type }})
+      uses: ./actions/build
       id: build
       with: 
         env-type: ${{ matrix.environment-type }}
         hw-type: ${{ matrix.hardware-type }}
-    - if: steps.build.outputs == build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
+    - name: Test (${{ matrix.test-type }})
+      if: steps.build.outputs.random-number == 9 #build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
       uses: ./actions/test
       with:
         env-type: ${{ matrix.environment-type }}
@@ -31,15 +33,16 @@ jobs:
   # ref:
   #   uses: ./.github/workflows/ref.yml
 
-  test:
-    needs: [build]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        test-type: [unit, integration]
+  # test:
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       test-type: [unit, integration]
     
-    steps:
-    - uses: ./.github/workflows/ex_test.yml # name: Test (${{ fromJson(needs.build.strategy.matrix.environment-type) }}.${{ fromJson(needs.build.strategy.matrix.hardware-type) }}) - ${{ matrix.test-type }}
+  #   steps:
+  #   - uses: ./.github/workflows/ex_test.yml 
+  # name: Test (${{ fromJson(needs.build.strategy.matrix.environment-type) }}.${{ fromJson(needs.build.strategy.matrix.hardware-type) }}) - ${{ matrix.test-type }}
     # - name: Unit tests
     #   uses: actions/setup-node@v1
     #   with:
