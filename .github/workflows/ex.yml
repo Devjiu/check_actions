@@ -4,13 +4,16 @@ on:
     inputs:
       cuda_compiler_version:
         type: string
-        default: None
+        default: "def"
 
 jobs:
   build:
     name: Build (${{ matrix.env-type }}.${{ matrix.hw-type }})
     runs-on: ubuntu-latest
     container: devjiu/cpu-hdk:check
+
+    output:
+      out-id: out.${{ matrix.env-type }}.${{ matrix.hw-type }}
 
     steps:
       - uses: actions/checkout@v3

@@ -11,8 +11,7 @@ jobs:
         hardware-type: [CPU, GPU] #L0
     
     steps:
-    - name: Build
-      uses: ./.github/workflows/ex.yml
+    - uses: ./.github/workflows/ex.yml
       with: 
         env-type: ${{ matrix.environment-type }}
         hw-type: ${{ matrix.hardware-type }}
@@ -25,8 +24,7 @@ jobs:
         test-type: [unit, integration]
     
     steps:
-    - name: Test (${{ fromJson(needs.build.strategy.matrix.environment-type) }}.${{ fromJson(needs.build.strategy.matrix.hardware-type) }}) - ${{ matrix.test-type }}
-      uses: ./.github/workflows/ex_test.yml 
+    - uses: ./.github/workflows/ex_test.yml # name: Test (${{ fromJson(needs.build.strategy.matrix.environment-type) }}.${{ fromJson(needs.build.strategy.matrix.hardware-type) }}) - ${{ matrix.test-type }}
     # - name: Unit tests
     #   uses: actions/setup-node@v1
     #   with:
