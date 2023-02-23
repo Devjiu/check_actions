@@ -15,14 +15,18 @@ jobs:
     steps:
     - name: Checkout workflows repo # required so we can reference the actions locally
       uses: actions/checkout@v3
-    - name: Build ()
-      uses: ./actions/build
+    - uses: ./actions/build
+      id: build
       with: 
         env-type: ${{ matrix.environment-type }}
         hw-type: ${{ matrix.hardware-type }}
-    - 
+    - if: steps.build.outputs == build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
       uses: ./actions/test
-      with: 
+      with:
+        env-type: ${{ matrix.environment-type }}
+        hw-type: ${{ matrix.hardware-type }}
+        test-type:  ${{ matrix.test-type }}
+
   
   # ref:
   #   uses: ./.github/workflows/ref.yml
