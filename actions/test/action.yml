@@ -1,5 +1,4 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: Test
 inputs:
   env-type: 
     required: true
@@ -13,7 +12,6 @@ inputs:
 
 outputs:
   random-number:
-    description: "Random number"
     value: ${{ steps.random-number-generator.outputs.random-number }}
 runs:
   using: "composite"

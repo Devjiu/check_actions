@@ -1,4 +1,4 @@
-name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
+name: Build
 inputs:
   hw-type:
     required: true
@@ -12,4 +12,3 @@ runs:
   steps:
     - run: echo docker build.${{ inputs.hw-type }}
       shell: bash
-      
