@@ -1,0 +1,58 @@
+name: Main workflow
+on:
+  workflow_dispatch:
+  push: []
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment-type: [docker, conda]
+        hardware-type: [CPU, GPU] #L0
+    
+    steps:
+    - name: Build
+      id: jobs.build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
+      uses: ./.github/workflows/ex.yml
+      with: 
+        env-type: ${{ matrix.environment-type }}
+        hw-type: ${{ matrix.hardware-type }}
+
+  test:
+    needs: [build]
+    strategy:
+      matrix:
+        test-type: [unit, integration]
+    
+    steps:
+    - name: Test (${{ build.matrix.environment-type }}.${{ build.matrix.hardware-type }}) - ${{ matrix.test-type }}
+      uses: ./.github/workflows/ex_test.yml 
+    # - name: Unit tests
+    #   uses: actions/setup-node@v1
+    #   with:
+    #     node-version: 12.x
+    # - name: Integration tests
+    #   run: npm install
+    # - name: Style check
+    #   run: npm run format-check
+
+
+# jobs:
+#   modin:
+#     uses: ./.github/workflows/modin.yml
+
+#   build:
+#     uses: ./.github/workflows/build.yml
+
+#   build-cuda:
+#     uses: ./.github/workflows/build.yml
+#     with:
+#       cuda_compiler_version: 11
+
+#   style:
+#     needs: build
+#     uses: ./.github/workflows/test.yml
+#     with:
+#       cache-suffix: ${{ needs.build.outputs.cache-suffix }}
+#       test: style
+

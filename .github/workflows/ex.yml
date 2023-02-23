@@ -1,0 +1,23 @@
+name: Build
+on:
+  workflow_call:
+    inputs:
+      cuda_compiler_version:
+        type: string
+        default: None
+
+jobs:
+  build:
+    name: Build (${{ matrix.env-type }}.${{ matrix.hw-type }})
+    runs-on: ubuntu-latest
+    container: devjiu/cpu-hdk:check
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Test
+        run: |
+          echo "env: " ${{ matrix.env-type }}
+          echo "hw: " ${{ matrix.hw-type }}
+          ls -la
+          g++ main.cpp
