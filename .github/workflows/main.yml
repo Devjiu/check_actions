@@ -11,6 +11,8 @@ jobs:
         hardware-type: [CPU, GPU] #L0
     
     steps:
+    - name: Checkout workflows repo # required so we can reference the actions locally
+      uses: actions/checkout@v2
     - uses: ./.github/workflows/ex.yml
       with: 
         env-type: ${{ matrix.environment-type }}
