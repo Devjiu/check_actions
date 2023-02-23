@@ -11,19 +11,15 @@ jobs:
         hardware-type: [CPU, GPU] #L0
     # - name: Checkout workflows repo # required so we can reference the actions locally
     #   uses: actions/checkout@v3
-    uses: ./.github/workflows/ex.yml
-    with: 
-      env-type: ${{ matrix.environment-type }}
-      hw-type: ${{ matrix.hardware-type }}
-    # steps:
-    # - name: Checkout workflows repo # required so we can reference the actions locally
-    #   uses: actions/checkout@v3
-    # - name: Why
-    #   run: ls -lah ./.github/workflows
-    # - uses: ./.github/workflows/ex.yml
-    #   with: 
-    #     env-type: ${{ matrix.environment-type }}
-    #     hw-type: ${{ matrix.hardware-type }}
+    steps:
+    - name: Checkout workflows repo # required so we can reference the actions locally
+      uses: actions/checkout@v3
+    - name: Why
+      run: ls -lah ./.github/workflows
+    - uses: ./actions/build
+      with: 
+        env-type: ${{ matrix.environment-type }}
+        hw-type: ${{ matrix.hardware-type }}
   
   # ref:
   #   uses: ./.github/workflows/ref.yml
