@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v3
     - name: Why
       run: ls -lah ./.github/workflows
-    - uses: Devjiu/check_actions/.github/workflows/ex.yml
+    - uses: ./.github/workflows/ex.yml
       with: 
         env-type: ${{ matrix.environment-type }}
         hw-type: ${{ matrix.hardware-type }}
