@@ -9,17 +9,20 @@ jobs:
       matrix:
         environment-type: [docker, conda]
         hardware-type: [CPU, GPU] #L0
+        test-type: [unit, integration]
     # - name: Checkout workflows repo # required so we can reference the actions locally
     #   uses: actions/checkout@v3
     steps:
     - name: Checkout workflows repo # required so we can reference the actions locally
       uses: actions/checkout@v3
-    - name: Why
-      run: ls -lah ./.github/workflows
-    - uses: ./actions/build
+    - name: Build ()
+      uses: ./actions/build
       with: 
         env-type: ${{ matrix.environment-type }}
         hw-type: ${{ matrix.hardware-type }}
+    - 
+      uses: ./actions/test
+      with: 
   
   # ref:
   #   uses: ./.github/workflows/ref.yml

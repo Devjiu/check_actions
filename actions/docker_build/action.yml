@@ -1,0 +1,15 @@
+name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
+inputs:
+  hw-type:
+    required: true
+    default: None
+
+outputs:
+  random-number:
+    value: 13
+runs:
+  using: "composite"
+  steps:
+    - run: echo docker build.${{ inputs.hw-type }}
+      shell: bash
+      
