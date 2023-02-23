@@ -1,4 +1,4 @@
-name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
+name: Build
 inputs:
   env-type: 
     required: true
