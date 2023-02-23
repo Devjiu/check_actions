@@ -24,7 +24,7 @@ jobs:
         test-type: [unit, integration]
     
     steps:
-    - name: Test (${{ build.matrix.environment-type }}.${{ build.matrix.hardware-type }}) - ${{ matrix.test-type }}
+    - name: Test (${{ fromJson(needs.build.strategy.matrix.environment-type) }}.${{ fromJson(needs.build.strategy.matrix.hardware-type) }}) - ${{ matrix.test-type }}
       uses: ./.github/workflows/ex_test.yml 
     # - name: Unit tests
     #   uses: actions/setup-node@v1
