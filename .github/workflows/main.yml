@@ -12,7 +12,6 @@ jobs:
     
     steps:
     - name: Build
-      id: jobs.build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
       uses: ./.github/workflows/ex.yml
       with: 
         env-type: ${{ matrix.environment-type }}
