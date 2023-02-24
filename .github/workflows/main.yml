@@ -23,6 +23,7 @@ jobs:
     #     hw-type: ${{ matrix.hardware-type }} 
   
   test:
+    needs: [build]
     strategy:
       matrix:
         test-type: [unit, integration]
