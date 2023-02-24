@@ -63,22 +63,22 @@ jobs:
           restore-keys: image-cached
       - if: inputs.env-type == 'docker'
         run: |
-          docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
-          docker pull localhost:5000/cache:latest || true
+          cp -r /tmp/docker-registry /var/lib/registry
+          docker pull devjiu/cpu-hdk:check || true
       - if: steps.cache.outputs.cache-hit != 'true' && inputs.env-type == 'docker'
         run: |
           docker pull devjiu/cpu-hdk:check
-          docker tag devjiu/cpu-hdk:check localhost:5000/cache:latest
-          docker push localhost:5000/cache:latest
+          cp -r /var/lib/registry /tmp/docker-registry 
       - if: inputs.env-type == 'docker'
         run: |
           docker run -i --name verify\
             -v ${PWD}:/home/hdk \
             -w /home/hdk \
-            localhost:5000/cache:latest \
+            devjiu/cpu-hdk:check \
             /usr/bin/bash
           docker image ls -a
           docker container ls -a
+          docker start
           echo "PRE=docker exec verify" >> $GITHUB_ENV
 
       - uses: actions/checkout@v3
