@@ -72,7 +72,7 @@ jobs:
             -w /home/hdk \
             devjiu/cpu-hdk:check \
             /usr/bin/bash -c \
-            "/usr/bin/bash"
+            "/usr/bin/bash && ls -la ../"
       
 
       - name: Test
