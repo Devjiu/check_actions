@@ -12,7 +12,6 @@ jobs:
 
   build:
     needs: [setup]
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         environment-type: [docker, conda]
@@ -30,7 +29,15 @@ jobs:
     #   with: 
     #     env-type: ${{ matrix.environment-type }}
     #     hw-type: ${{ matrix.hardware-type }}
-    
+
+jobs:
+  ReuseableMatrixJobForDeployment:
+    strategy:
+      matrix:
+        target: [dev, stage, prod]
+    uses: octocat/octo-repo/.github/workflows/deployment.yml@main
+    with:
+      target: ${{ matrix.target }}  
   
   # ref:
   #   uses: ./.github/workflows/ref.yml
