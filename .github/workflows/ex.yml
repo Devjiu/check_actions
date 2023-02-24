@@ -57,18 +57,29 @@ jobs:
     steps:
       - if: inputs.env-type == 'docker'
         run: |
-          docker buildx create --use --driver=docker-container
+          docker pull devjiu/cpu-hdk:check
       - if: inputs.env-type == 'docker'
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          pull: true
-          push: false
-          tags: "devjiu/cpu-hdk:check"
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+      
       - uses: actions/checkout@v3
+
+      - if: inputs.env-type == 'docker'
+        run: |
+          docker run --rm -i \
+            -v ${PWD}:/home/hdk \
+            -w /home/hdk \
+            devjiu/cpu-hdk:check \
+            /usr/bin/bash -c \
+            "groupadd -g `id -g` $(whoami); \
+             useradd -m -u `id -u` -g `id -g` -G sudo $(whoami); \
+             echo '$(whoami) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers; \
+             chown $(whoami):$(whoami) /home/; \
+             echo \"$(whoami) soft nofile \`ulimit -n\`\" >> /etc/security/limits.conf; \
+             echo \"SHELL=/usr/bin/bash\" > /etc/environment ; \
+             su $(whoami) -s /usr/bin/bash"
+      
 
       - name: Test
         run: |
