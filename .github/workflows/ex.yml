@@ -70,18 +70,9 @@ jobs:
 
       - uses: actions/checkout@v3
 
+      - if: inputs.env-type == 'docker'
+        uses: docker://devjiu/cpu-hdk:check
       - run: |
-          if [[ ${{ inputs.env-type }} == docker ]]; then
-            docker run -i --name verify\
-              -v ${PWD}:/home/hdk \
-              -w /home/hdk \
-              devjiu/cpu-hdk:check \
-              /usr/bin/bash -c \
-              "/usr/bin/bash && ls -la ../"
-            docker container ls -a
-            docker start verify
-            docker attach verify
-          fi
           echo "env: " ${{ inputs.env-type }}
           echo "hw: " ${{ inputs.hw-type }}
           ls -la ../
