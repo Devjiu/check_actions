@@ -67,12 +67,14 @@ jobs:
 
       - run: |
           if [[ ${{ inputs.env-type }} == docker ]]; then
-            docker run --rm -it \
+            docker run -i --name verify\
               -v ${PWD}:/home/hdk \
               -w /home/hdk \
               devjiu/cpu-hdk:check \
               /usr/bin/bash -c \
               "/usr/bin/bash && ls -la ../"
+            docker container ls -a
+            docker attach verify
           fi
           echo "env: " ${{ inputs.env-type }}
           echo "hw: " ${{ inputs.hw-type }}
