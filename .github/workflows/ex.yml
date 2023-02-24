@@ -72,13 +72,7 @@ jobs:
             -w /home/hdk \
             devjiu/cpu-hdk:check \
             /usr/bin/bash -c \
-            "groupadd -g `id -g` $(whoami); \
-             useradd -m -u `id -u` -g `id -g` -G sudo $(whoami); \
-             echo '$(whoami) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers; \
-             chown $(whoami):$(whoami) /home/; \
-             echo \"$(whoami) soft nofile \`ulimit -n\`\" >> /etc/security/limits.conf; \
-             echo \"SHELL=/usr/bin/bash\" > /etc/environment ; \
-             su $(whoami) -s /usr/bin/bash"
+            "/usr/bin/bash"
       
 
       - name: Test
