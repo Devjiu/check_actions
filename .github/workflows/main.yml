@@ -3,15 +3,7 @@ on:
   workflow_dispatch:
   push: []
 jobs:
-  # setup:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout workflows repo # required so we can reference the actions locally
-  #     uses: actions/checkout@v3
-
-
   build:
-    # needs: [setup]
     strategy:
       matrix:
         environment-type: [docker, conda]
@@ -30,15 +22,13 @@ jobs:
     #     env-type: ${{ matrix.environment-type }}
     #     hw-type: ${{ matrix.hardware-type }} 
   
-  # ref:
-  #   uses: ./.github/workflows/ref.yml
-
-  # test:
-    
-  #   strategy:
-  #     matrix:
-  #       test-type: [unit, integration]
-    
+  test:
+    strategy:
+      matrix:
+        test-type: [unit, integration]
+    uses: ./.github/workflows/ex_test.yml
+    with:
+      env-type: ${{ matrix.environment-type }}
   #   steps:
   #   - name: Test (${{ matrix.test-type }})
   #     if: steps.build.outputs.random-number == 9 #build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
