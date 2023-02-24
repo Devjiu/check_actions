@@ -15,13 +15,14 @@ jobs:
   build:
     name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
     runs-on: ubuntu-latest
+    if: ${{ inputs.env-type }} == docker
     container: devjiu/cpu-hdk:check
 
     # output:
     #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
 
     steps:
-      #- uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Test
         run: |
