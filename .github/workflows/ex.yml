@@ -76,6 +76,7 @@ jobs:
               /usr/bin/bash -c \
               "/usr/bin/bash && ls -la ../"
             docker container ls -a
+            docker start verify
             docker attach verify
           fi
           echo "env: " ${{ inputs.env-type }}
