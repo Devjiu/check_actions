@@ -13,19 +13,19 @@ on:
 
 jobs:
   build:
-    name: Build (${{ matrix.env-type }}.${{ matrix.hw-type }})
+    name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
     runs-on: ubuntu-latest
     container: devjiu/cpu-hdk:check
 
-    output:
-      out-id: out.${{ matrix.env-type }}.${{ matrix.hw-type }}
+    # output:
+    #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
 
     steps:
-      - uses: actions/checkout@v3
+      #- uses: actions/checkout@v3
 
       - name: Test
         run: |
-          echo "env: " ${{ matrix.env-type }}
-          echo "hw: " ${{ matrix.hw-type }}
+          echo "env: " ${{ inputs.env-type }}
+          echo "hw: " ${{ inputs.hw-type }}
           ls -la
           g++ main.cpp
