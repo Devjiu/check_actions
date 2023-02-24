@@ -13,6 +13,8 @@ inputs:
 outputs:
   random-number:
     value: ${{ steps.random-number-generator.outputs.random-number }}
+jobs:
+  uses: 
 runs:
   using: "composite"
   steps:

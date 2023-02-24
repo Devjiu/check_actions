@@ -2,9 +2,12 @@ name: Build
 on:
   workflow_call:
     inputs:
-      cuda_compiler_version:
-        type: string
-        default: "def"
+      env-type: 
+        required: true
+        default: None
+      hw-type:
+        required: true
+        default: None
 
 jobs:
   build:

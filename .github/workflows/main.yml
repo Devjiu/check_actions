@@ -3,24 +3,46 @@ on:
   workflow_dispatch:
   push: []
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout workflows repo # required so we can reference the actions locally
+      uses: actions/checkout@v3
+
+
   build:
+    needs: [setup]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         environment-type: [docker, conda]
         hardware-type: [CPU, GPU] #L0
-        test-type: [unit, integration]
+    uses: ./.github/workflows/ex.yml
+    with:
+      env-type: ${{ matrix.environment-type }}
+      hw-type: ${{ matrix.hardware-type }}
+    # steps:
     # - name: Checkout workflows repo # required so we can reference the actions locally
     #   uses: actions/checkout@v3
+    # - name: Build (${{ matrix.environment-type }}.${{ matrix.hardware-type }})
+    #   uses: ./actions/build
+    #   id: build
+    #   with: 
+    #     env-type: ${{ matrix.environment-type }}
+    #     hw-type: ${{ matrix.hardware-type }}
+    
+  
+  # ref:
+  #   uses: ./.github/workflows/ref.yml
+
+  test:
+    needs: [build.]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test-type: [unit, integration]
+    
     steps:
-    - name: Checkout workflows repo # required so we can reference the actions locally
-      uses: actions/checkout@v3
-    - name: Build (${{ matrix.environment-type }}.${{ matrix.hardware-type }})
-      uses: ./actions/build
-      id: build
-      with: 
-        env-type: ${{ matrix.environment-type }}
-        hw-type: ${{ matrix.hardware-type }}
     - name: Test (${{ matrix.test-type }})
       if: steps.build.outputs.random-number == 9 #build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
       uses: ./actions/test
@@ -29,18 +51,6 @@ jobs:
         hw-type: ${{ matrix.hardware-type }}
         test-type:  ${{ matrix.test-type }}
 
-  
-  # ref:
-  #   uses: ./.github/workflows/ref.yml
-
-  # test:
-  #   needs: [build]
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       test-type: [unit, integration]
-    
-  #   steps:
   #   - uses: ./.github/workflows/ex_test.yml 
   # name: Test (${{ fromJson(needs.build.strategy.matrix.environment-type) }}.${{ fromJson(needs.build.strategy.matrix.hardware-type) }}) - ${{ matrix.test-type }}
     # - name: Unit tests
