@@ -66,8 +66,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - run: |
-          if [ inputs.env-type == 'docker' ]
-          then
+          if [[ ${{ inputs.env-type }} == docker ]]; then
             docker run --rm -it \
               -v ${PWD}:/home/hdk \
               -w /home/hdk \
