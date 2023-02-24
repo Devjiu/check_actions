@@ -12,51 +12,55 @@ on:
         default: None
 
 jobs:
-  build-docker:
-    name: Build Docker (${{ inputs.env-type }}.${{ inputs.hw-type }})
-    if: inputs.env-type == 'docker'
-    runs-on: ubuntu-latest
-    container: devjiu/cpu-hdk:check
+  # build-docker:
+  #   name: Build Docker (${{ inputs.env-type }}.${{ inputs.hw-type }})
+  #   if: inputs.env-type == 'docker'
+  #   runs-on: ubuntu-latest
+  #   container: devjiu/cpu-hdk:check
 
-    # output:
-    #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
+  #   # output:
+  #   #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Test
-        run: |
-          echo "env: " ${{ inputs.env-type }}
-          echo "hw: " ${{ inputs.hw-type }}
-          ls -la
-          g++ main.cpp
-  build-conda: 
-    name: Build Conda (${{ inputs.env-type }}.${{ inputs.hw-type }})
-    if: inputs.env-type == 'conda'
-    runs-on: ubuntu-latest
+  #     - name: Test
+  #       run: |
+  #         echo "env: " ${{ inputs.env-type }}
+  #         echo "hw: " ${{ inputs.hw-type }}
+  #         ls -la
+  #         g++ main.cpp
+  # build-conda: 
+  #   name: Build Conda (${{ inputs.env-type }}.${{ inputs.hw-type }})
+  #   if: inputs.env-type == 'conda'
+  #   runs-on: ubuntu-latest
 
-    # output:
-    #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
+  #   # output:
+  #   #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Test
-        run: |
-          echo "env: " ${{ inputs.env-type }}
-          echo "hw: " ${{ inputs.hw-type }}
-          ls -la
-          g++ main.cpp
+  #     - name: Test
+  #       run: |
+  #         echo "env: " ${{ inputs.env-type }}
+  #         echo "hw: " ${{ inputs.hw-type }}
+  #         ls -la
+  #         g++ main.cpp
   build-common:
     name: Build common (${{ inputs.env-type }}.${{ inputs.hw-type }})
     runs-on: ubuntu-latest
-    if: inputs.env-type == 'docker'
-    container: devjiu/cpu-hdk:check
 
     # output:
     #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
 
     steps:
+      _ if: inputs.env-type == 'docker'
+        uses: docker/build-push-action@v4
+        with:
+          pull: true
+          tags: devjiu/cpu-hdk:check
+
       - uses: actions/checkout@v3
 
       - name: Test
