@@ -70,20 +70,14 @@ jobs:
           docker pull devjiu/cpu-hdk:check
           docker tag devjiu/cpu-hdk:check localhost:5000/cache:latest
           docker push localhost:5000/cache:latest
-
+      - if: inputs.env-type == 'docker'
+        run: |
+          echo "PRE=\"docker exec localhost:5000/cache:latest\"" >> $GITHUB_ENV
 
       - uses: actions/checkout@v3
 
       - run: |
-          if [[ ${{ inputs.env-type }} == docker ]]; then
-            docker run -it --name verify\
-              -v ${PWD}:/home/hdk \
-              -w /home/hdk \
-              localhost:5000/cache:latest
-            docker start verify
-            docker attach verify
-          fi
-          echo "env: " ${{ inputs.env-type }}
-          echo "hw: " ${{ inputs.hw-type }}
-          ls -la ../
-          g++ main.cpp
+          ${{env.PRE}} echo "env: " ${{ inputs.env-type }}
+          ${{env.PRE}} echo "hw: " ${{ inputs.hw-type }}
+          ${{env.PRE}} ls -la ../
+          ${{env.PRE}} g++ main.cpp
