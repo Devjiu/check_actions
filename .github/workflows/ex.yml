@@ -56,6 +56,9 @@ jobs:
 
     steps:
       - if: inputs.env-type == 'docker'
+        run: |
+          docker buildx create --use --driver=docker-container
+      - if: inputs.env-type == 'docker'
         uses: docker/build-push-action@v4
         with:
           context: .
