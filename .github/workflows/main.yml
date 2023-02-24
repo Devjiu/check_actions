@@ -12,6 +12,7 @@ jobs:
 
   build:
     needs: [setup]
+    id: build
     strategy:
       matrix:
         environment-type: [docker, conda]
@@ -33,21 +34,20 @@ jobs:
   # ref:
   #   uses: ./.github/workflows/ref.yml
 
-  test:
-    needs: [build.]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        test-type: [unit, integration]
+  # test:
     
-    steps:
-    - name: Test (${{ matrix.test-type }})
-      if: steps.build.outputs.random-number == 9 #build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
-      uses: ./actions/test
-      with:
-        env-type: ${{ matrix.environment-type }}
-        hw-type: ${{ matrix.hardware-type }}
-        test-type:  ${{ matrix.test-type }}
+  #   strategy:
+  #     matrix:
+  #       test-type: [unit, integration]
+    
+  #   steps:
+  #   - name: Test (${{ matrix.test-type }})
+  #     if: steps.build.outputs.random-number == 9 #build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
+  #     uses: ./actions/test
+  #     with:
+  #       env-type: ${{ matrix.environment-type }}
+  #       hw-type: ${{ matrix.hardware-type }}
+  #       test-type:  ${{ matrix.test-type }}
 
   #   - uses: ./.github/workflows/ex_test.yml 
   # name: Test (${{ fromJson(needs.build.strategy.matrix.environment-type) }}.${{ fromJson(needs.build.strategy.matrix.hardware-type) }}) - ${{ matrix.test-type }}
