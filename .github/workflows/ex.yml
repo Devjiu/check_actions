@@ -4,9 +4,11 @@ on:
     inputs:
       env-type: 
         required: true
+        type: string
         default: None
       hw-type:
         required: true
+        type: string
         default: None
 
 jobs:
