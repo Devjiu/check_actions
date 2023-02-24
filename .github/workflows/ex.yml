@@ -65,10 +65,12 @@ jobs:
         run: |
           DOCKER_OPTS=" -g  /tmp/docker-registry" && sudo systemctl restart docker
           docker pull devjiu/cpu-hdk:check || true
-      - if: steps.cache.outputs.cache-hit != 'true' && inputs.env-type == 'docker'
-        run: |
-          docker pull devjiu/cpu-hdk:check
-          cp -r /var/lib/registry /tmp/docker-registry 
+      - run: |
+          echo "cache-hit? " ${{ steps.cache.outputs.cache-hit }}
+      # - if: steps.cache.outputs.cache-hit != 'true' && inputs.env-type == 'docker'
+      #   run: |
+      #     docker pull devjiu/cpu-hdk:check
+      #     cp -r /var/lib/registry /tmp/docker-registry 
       - if: inputs.env-type == 'docker'
         run: |
           docker run -i --name verify\
