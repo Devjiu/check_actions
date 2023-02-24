@@ -21,15 +21,7 @@ jobs:
     #   with: 
     #     env-type: ${{ matrix.environment-type }}
     #     hw-type: ${{ matrix.hardware-type }} 
-  
-  test:
-    needs: [build]
-    strategy:
-      matrix:
-        test-type: [unit, integration]
-    uses: ./.github/workflows/ex_test.yml
-    with:
-      test-type: ${{ matrix.test-type }}
+    
   #   steps:
   #   - name: Test (${{ matrix.test-type }})
   #     if: steps.build.outputs.random-number == 9 #build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}

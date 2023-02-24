@@ -90,3 +90,14 @@ jobs:
           ${{env.PRE}} echo "hw: " ${{ inputs.hw-type }}
           ${{env.PRE}} ls -la ../
           ${{env.PRE}} g++ main.cpp
+
+  call-test:
+    needs: [build-common]
+    strategy:
+      matrix:
+        test-type: [unit, integration]
+    uses: ./.github/workflows/ex_test.yml
+    with:
+      test-type: ${{ matrix.test-type }}
+      env-type: ${{ inputs.env-type }}
+      hw-type: ${{ inputs.hw-type }}

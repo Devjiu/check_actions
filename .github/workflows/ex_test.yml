@@ -6,6 +6,14 @@ on:
         required: true
         type: string
         default: None
+      env-type: 
+        required: true
+        type: string
+        default: None
+      hw-type:
+        required: true
+        type: string
+        default: None
 
 jobs:
   test:
