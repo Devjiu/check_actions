@@ -9,15 +9,12 @@ on:
 
 jobs:
   test:
-    name: Test (${{ input.test-type }})
+    name: Test (${{ inputs.test-type }})
     runs-on: ubuntu-latest
     #container: devjiu/cpu-hdk:check
 
     steps:
-      - uses: actions/checkout@v3
-
       - name: Test
         run: |
-          echo "env: " ${{ matrix.env-type }}
-          echo "hw: " ${{ matrix.hw-type }}
+          echo "test: " ${{ inputs.test-type }}
           ls -la
