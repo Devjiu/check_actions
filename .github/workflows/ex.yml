@@ -14,7 +14,7 @@ on:
 jobs:
   build-docker:
     name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
-    if: inputs.env-type == docker
+    if: inputs.env-type == 'docker'
     runs-on: ubuntu-latest
     container: devjiu/cpu-hdk:check
 
@@ -32,8 +32,26 @@ jobs:
           g++ main.cpp
   build-conda: 
     name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
-    if: inputs.env-type == conda
+    if: inputs.env-type == 'conda'
     runs-on: ubuntu-latest
+
+    # output:
+    #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Test
+        run: |
+          echo "env: " ${{ inputs.env-type }}
+          echo "hw: " ${{ inputs.hw-type }}
+          ls -la
+          g++ main.cpp
+  build-common:
+    name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
+    runs-on: ubuntu-latest
+    if: inputs.env-type == 'docker'
+    container: devjiu/cpu-hdk:check
 
     # output:
     #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
