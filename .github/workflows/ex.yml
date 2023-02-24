@@ -13,7 +13,7 @@ on:
 
 jobs:
   build-docker:
-    name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
+    name: Build Docker (${{ inputs.env-type }}.${{ inputs.hw-type }})
     if: inputs.env-type == 'docker'
     runs-on: ubuntu-latest
     container: devjiu/cpu-hdk:check
@@ -31,7 +31,7 @@ jobs:
           ls -la
           g++ main.cpp
   build-conda: 
-    name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
+    name: Build Conda (${{ inputs.env-type }}.${{ inputs.hw-type }})
     if: inputs.env-type == 'conda'
     runs-on: ubuntu-latest
 
@@ -48,7 +48,7 @@ jobs:
           ls -la
           g++ main.cpp
   build-common:
-    name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
+    name: Build common (${{ inputs.env-type }}.${{ inputs.hw-type }})
     runs-on: ubuntu-latest
     if: inputs.env-type == 'docker'
     container: devjiu/cpu-hdk:check
