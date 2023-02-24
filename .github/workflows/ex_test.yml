@@ -2,15 +2,16 @@ name: Test
 on:
   workflow_call:
     inputs:
-      cuda_compiler_version:
+      test-type:
+        required: true
         type: string
-        default: "None"
+        default: None
 
 jobs:
   test:
-    name: Test (${{ matrix.env-type }}.${{ matrix.hw-type }}) - ${{ matrix.test-type }}
+    name: Test (${{ input.test-type }})
     runs-on: ubuntu-latest
-    container: devjiu/cpu-hdk:check
+    #container: devjiu/cpu-hdk:check
 
     steps:
       - uses: actions/checkout@v3
