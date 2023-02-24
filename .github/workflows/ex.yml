@@ -58,13 +58,16 @@ jobs:
       - if: inputs.env-type == 'docker'
         run: |
           docker pull devjiu/cpu-hdk:check
-          docker info
+          docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+          docker tag devjiu/cpu-hdk:check localhost:5000/cache:latest
+          docker push localhost:5000/cache:latest
       - if: inputs.env-type == 'docker'
         uses: actions/cache@v3
         with:
-          path: /var/lib/docker
+          path: /tmp/docker-registry
           key: image-cached
           restore-keys: image-cached
+
       - uses: actions/checkout@v3
 
       - run: |
