@@ -62,8 +62,9 @@ jobs:
       - if: inputs.env-type == 'docker'
         uses: actions/cache@v3
         with:
-          path: |
-            /var/lib/docker
+          path: /var/lib/docker
+          key: image-cached
+          restore-keys: image-cached
       - uses: actions/checkout@v3
 
       - run: |
