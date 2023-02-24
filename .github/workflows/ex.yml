@@ -63,7 +63,7 @@ jobs:
           restore-keys: image-cached
       - if: inputs.env-type == 'docker'
         run: |
-          cp -r /tmp/docker-registry /var/lib/registry
+          DOCKER_OPTS=" -g  /tmp/docker-registry" && sudo systemctl restart docker
           docker pull devjiu/cpu-hdk:check || true
       - if: steps.cache.outputs.cache-hit != 'true' && inputs.env-type == 'docker'
         run: |
