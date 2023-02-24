@@ -58,8 +58,12 @@ jobs:
       - if: inputs.env-type == 'docker'
         uses: docker/build-push-action@v4
         with:
+          context: .
           pull: true
-          tags: devjiu/cpu-hdk:check
+          push: false
+          tags: "devjiu/cpu-hdk:check"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - uses: actions/checkout@v3
 
