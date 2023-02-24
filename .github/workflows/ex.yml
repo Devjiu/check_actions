@@ -59,7 +59,7 @@ jobs:
         run: |
           docker pull devjiu/cpu-hdk:check
       - if: inputs.env-type == 'docker'
-        uses: satackey/action-docker-layer-caching@v0.ъ0.11
+        uses: satackey/action-docker-layer-caching@v0.0.11
         # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
       
