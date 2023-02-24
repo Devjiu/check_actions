@@ -79,7 +79,7 @@ jobs:
             /usr/bin/bash
           docker image ls -a
           docker container ls -a
-          echo "PRE=docker exec localhost:5000/cache:latest" >> $GITHUB_ENV
+          echo "PRE=docker exec verify" >> $GITHUB_ENV
 
       - uses: actions/checkout@v3
 
