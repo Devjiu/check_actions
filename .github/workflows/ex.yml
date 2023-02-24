@@ -72,7 +72,7 @@ jobs:
           docker push localhost:5000/cache:latest
       - if: inputs.env-type == 'docker'
         run: |
-          echo "PRE=\"docker exec localhost:5000/cache:latest\"" >> $GITHUB_ENV
+          echo "PRE=docker exec localhost:5000/cache:latest" >> $GITHUB_ENV
 
       - uses: actions/checkout@v3
 
