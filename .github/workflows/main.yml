@@ -12,7 +12,6 @@ jobs:
 
   build:
     needs: [setup]
-    id: build
     strategy:
       matrix:
         environment-type: [docker, conda]
