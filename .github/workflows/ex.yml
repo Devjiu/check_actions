@@ -80,7 +80,7 @@ jobs:
             /usr/bin/bash
           docker image ls -a
           docker container ls -a
-          docker start cverify
+          docker start verify
           echo "PRE=docker exec verify" >> $GITHUB_ENV
 
       - uses: actions/checkout@v3
