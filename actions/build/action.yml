@@ -1,0 +1,22 @@
+name: Build
+inputs:
+  env-type: 
+    required: true
+    default: None
+  hw-type:
+    required: true
+    default: None
+
+outputs:
+  random-number:
+    value: 13
+runs:
+  using: "composite"
+  steps:
+    - if: ${{ inputs.env-type }} == 'docker'
+      uses: ./actions/docker_build
+      with:
+        hw-type: ${{ inputs.hw-type }}
+    - if: ${{ inputs.env-type }} == 'conda'
+      run: echo conda build.${{ inputs.env-type }}.${{ inputs.hw-type }}
+      shell: bash

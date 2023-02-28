@@ -1,0 +1,29 @@
+name: Test
+inputs:
+  env-type: 
+    required: true
+    default: None
+  hw-type:
+    required: true
+    default: None
+  test-type:
+    required: true
+    default: None
+
+outputs:
+  random-number:
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+jobs:
+  uses: 
+runs:
+  using: "composite"
+  steps:
+    - run: echo test ${{ inputs.env-type }}.${{ inputs.hw-type }}.${{ inputs.test-type }}
+      shell: bash
+
+
+    - run: |
+        # cd omniscidb
+        find . -name build -prune -or -name ThirdParty \
+           -prune -or \( -name '*.cpp' -print -or -name '*.h' -print \) \
+           | xargs clang-format --dry-run --Werror -style=file
