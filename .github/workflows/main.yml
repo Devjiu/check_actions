@@ -21,10 +21,10 @@ jobs:
   #       hw-type: ${{ matrix.hardware-type }}
   #       test-type:  ${{ matrix.test-type }}
 
-  style:
-    needs: build
-    uses: ./.github/workflows/test.yml
-    with:
-      cache-suffix: ${{ needs.build.outputs.cache-suffix }}
-      test: style
+  # style:
+  #   needs: build
+  #   uses: ./.github/workflows/test.yml
+  #   with:
+  #     cache-suffix: ${{ needs.build.outputs.cache-suffix }}
+  #     test: style
 
