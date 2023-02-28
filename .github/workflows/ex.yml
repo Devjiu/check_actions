@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - run: |
-          ls -la /var/lib/docker
+          sudo ls -la /var/lib/docker
       - if: inputs.env-type == 'docker'
         uses: actions/cache@v3
         with:
