@@ -12,16 +12,6 @@ jobs:
     with:
       env-type: ${{ matrix.environment-type }}
       hw-type: ${{ matrix.hardware-type }}
-    # steps:
-    # - name: Checkout workflows repo # required so we can reference the actions locally
-    #   uses: actions/checkout@v3
-    # - name: Build (${{ matrix.environment-type }}.${{ matrix.hardware-type }})
-    #   uses: ./actions/build
-    #   id: build
-    #   with: 
-    #     env-type: ${{ matrix.environment-type }}
-    #     hw-type: ${{ matrix.hardware-type }} 
-    
   #   steps:
   #   - name: Test (${{ matrix.test-type }})
   #     if: steps.build.outputs.random-number == 9 #build.${{ matrix.environment-type }}.${{ matrix.hardware-type }}
@@ -31,34 +21,10 @@ jobs:
   #       hw-type: ${{ matrix.hardware-type }}
   #       test-type:  ${{ matrix.test-type }}
 
-  #   - uses: ./.github/workflows/ex_test.yml 
-  # name: Test (${{ fromJson(needs.build.strategy.matrix.environment-type) }}.${{ fromJson(needs.build.strategy.matrix.hardware-type) }}) - ${{ matrix.test-type }}
-    # - name: Unit tests
-    #   uses: actions/setup-node@v1
-    #   with:
-    #     node-version: 12.x
-    # - name: Integration tests
-    #   run: npm install
-    # - name: Style check
-    #   run: npm run format-check
-
-
-# jobs:
-#   modin:
-#     uses: ./.github/workflows/modin.yml
-
-#   build:
-#     uses: ./.github/workflows/build.yml
-
-#   build-cuda:
-#     uses: ./.github/workflows/build.yml
-#     with:
-#       cuda_compiler_version: 11
-
-#   style:
-#     needs: build
-#     uses: ./.github/workflows/test.yml
-#     with:
-#       cache-suffix: ${{ needs.build.outputs.cache-suffix }}
-#       test: style
+  style:
+    needs: build
+    uses: ./.github/workflows/test.yml
+    with:
+      cache-suffix: ${{ needs.build.outputs.cache-suffix }}
+      test: style
 

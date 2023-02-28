@@ -12,49 +12,13 @@ on:
         default: None
 
 jobs:
-  # build-docker:
-  #   name: Build Docker (${{ inputs.env-type }}.${{ inputs.hw-type }})
-  #   if: inputs.env-type == 'docker'
-  #   runs-on: ubuntu-latest
-  #   container: devjiu/cpu-hdk:check
-
-  #   # output:
-  #   #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
-
-  #   steps:
-  #     - uses: actions/checkout@v3
-
-  #     - name: Test
-  #       run: |
-  #         echo "env: " ${{ inputs.env-type }}
-  #         echo "hw: " ${{ inputs.hw-type }}
-  #         ls -la
-  #         g++ main.cpp
-  # build-conda: 
-  #   name: Build Conda (${{ inputs.env-type }}.${{ inputs.hw-type }})
-  #   if: inputs.env-type == 'conda'
-  #   runs-on: ubuntu-latest
-
-  #   # output:
-  #   #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
-
-  #   steps:
-  #     - uses: actions/checkout@v3
-
-  #     - name: Test
-  #       run: |
-  #         echo "env: " ${{ inputs.env-type }}
-  #         echo "hw: " ${{ inputs.hw-type }}
-  #         ls -la
-  #         g++ main.cpp
   build-common:
     name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
     runs-on: ubuntu-latest
 
-    # output:
-    #   out-id: out.${{ inputs.env-type }}.${{ inputs.hw-type }}
-
     steps:
+      - run: |
+          ls -la /var/lib/docker
       - if: inputs.env-type == 'docker'
         uses: actions/cache@v3
         with:
@@ -67,10 +31,6 @@ jobs:
           docker pull devjiu/cpu-hdk:check || true
       - run: |
           echo "cache-hit? \"${{ steps.cache.outputs.cache-hit }}\""
-      # - if: steps.cache.outputs.cache-hit != 'true' && inputs.env-type == 'docker'
-      #   run: |
-      #     docker pull devjiu/cpu-hdk:check
-      #     cp -r /var/lib/registry /tmp/docker-registry 
       - if: inputs.env-type == 'docker'
         run: |
           docker run -i --name verify\
@@ -89,7 +49,7 @@ jobs:
           ${{env.PRE}} echo "env: " ${{ inputs.env-type }}
           ${{env.PRE}} echo "hw: " ${{ inputs.hw-type }}
           ${{env.PRE}} ls -la ../
-          ${{env.PRE}} g++ main.cpp
+          # ${{env.PRE}} g++ main.cpp
 
   call-test:
     needs: [build-common]

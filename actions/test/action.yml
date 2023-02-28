@@ -20,3 +20,10 @@ runs:
   steps:
     - run: echo test ${{ inputs.env-type }}.${{ inputs.hw-type }}.${{ inputs.test-type }}
       shell: bash
+
+
+    - run: |
+        # cd omniscidb
+        find . -name build -prune -or -name ThirdParty \
+           -prune -or \( -name '*.cpp' -print -or -name '*.h' -print \) \
+           | xargs clang-format --dry-run --Werror -style=file
