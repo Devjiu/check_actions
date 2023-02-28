@@ -33,7 +33,9 @@ jobs:
       - if: inputs.env-type == 'docker'
         run: |
           DOCKER_OPTS=" -g  /tmp/docker-registry" && sudo systemctl restart docker
+          sudo ln -sfv /var/lib/docker /tmp/docker-registry
           docker pull devjiu/cpu-hdk:check || true
+          docker image ls -a 
       - run: |
           echo "cache-hit? \"${{ steps.cache.outputs.cache-hit }}\""
       - if: inputs.env-type == 'docker'
