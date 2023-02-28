@@ -16,9 +16,14 @@ jobs:
     name: Build (${{ inputs.env-type }}.${{ inputs.hw-type }})
     runs-on: ubuntu-latest
 
+    env: 
+      DOCKER_OPTS: " -g  /tmp/docker-registry"
+
     steps:
       - run: |
+          export DOCKER_OPTS=" -g  /tmp/docker-registry"
           sudo ls -la /var/lib/docker
+          docker image ls -a
       - if: inputs.env-type == 'docker'
         uses: actions/cache@v3
         with:
